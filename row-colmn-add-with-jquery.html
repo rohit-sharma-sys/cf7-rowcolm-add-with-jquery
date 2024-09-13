@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Rows</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+#bft_container .bft_col_form p {
+    width: 194px !important;
+    margin: 5px;
+}
+#bft_container .col-icons p {
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+}
+div#bft_container {
+    overflow-x: scroll;
+}
+#bft_container .bft_col_form p input{
+    height:35px !important;
+}
+#bft_container .bft-row {
+    display: flex;
+    margin-bottom: 10px;
+    position:relative;
+    align-items:center;
+    margin:0px;
+}
+#bft_container .col-icons, .bft_col_form {
+    margin-right: 10px;
+}
+#bft_container .d-none {
+    display: none;
+}
+.col-icons p i.fa-solid.fa-trash, .col-icons p i.fa-solid.fa-copy {
+    position: absolute;
+    top: 10px;
+    left:0px;
+    border-radius: 100px;
+    font-size:12px;
+}
+.col-icons p i.fa-solid.fa-trash{
+    margin-left:15px
+}
+.col-icons p i.fa-solid.fa-plus {
+    padding-left: 6px;
+}
+.col-icons p i {
+    cursor: pointer;
+}
+    </style>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div id="bft_container">
+    <div class="bft-col-form">
+        <div class="bft-row">
+            <div class="col-icons">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <i class="fa-solid fa-copy d-none"></i>
+                <i class="fa-solid fa-trash d-none"></i>
+                <i class="fa-solid fa-plus"></i>
+            </div>
+
+            <div class="bft_col_form">
+                <label> Reference
+   				 [text* your-name autocomplete:name]
+				</label>
+            </div>
+			<div class="bft_col_form">
+                <label> Quantity
+   				 [text* your-name autocomplete:name]
+				</label>
+            </div>
+            <div class="bft_col_form">
+                <label> Freight Items
+			[select FreightItems "Carton" "Item" "Skid" "Pallet" "22T - SEMI"]
+                      </label>
+            </div>
+            <div class="bft_col_form">
+                <label>Total Weight (kgs) Per Line
+   				 [text* your-name autocomplete:name]
+				</label>
+            </div>
+            <div class="bft_col_form">
+                <label>Length (Meters)
+   				 [text* your-name autocomplete:name]
+				</label>
+            </div>
+            <div class="bft_col_form">
+                <label>Width (Meters)
+   				 [text* your-name autocomplete:name]
+				</label>
+            </div>
+            <div class="bft_col_form">
+                <label>Height (Meters)
+   				 [text* your-name autocomplete:name]
+				</label>
+            </div>
+            <div class="bft_col_form">
+                <label>Height (Meters)
+   				  [text* your-name autocomplete:name]
+				</label>
+            </div>
+            
+		</div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   $(document).ready(function() {
+        // Function to handle adding a new row
+        function addNewRow() {
+            let newRow = $('.bft-row').first().clone();
+            newRow.find('input').val(''); // Clear input values
+            newRow.find('select').prop('selectedIndex', 0); // Reset select menu
+            newRow.find('.fa-copy, .fa-trash').addClass('d-none'); // Hide copy and trash icons initially
+            newRow.find('.fa-plus').removeClass('d-none'); // Ensure plus icon is visible
+            $('.bft-col-form').append(newRow);
+        }
+
+        // Add new row when plus icon is clicked
+        $('#bft_container').on('click', '.fa-plus', function() {
+            addNewRow();
+        });
+
+        // Toggle visibility of copy and trash icons when ellipsis icon is clicked
+        $('#bft_container').on('click', '.fa-ellipsis-vertical', function() {
+            $(this).siblings('.fa-copy, .fa-trash').toggleClass('d-none');
+        });
+
+        // Remove row when trash icon is clicked, but keep at least one row
+        $('#bft_container').on('click', '.fa-trash', function() {
+            if ($('.bft-row').length > 1) {
+                $(this).closest('.bft-row').remove();
+            }
+        });
+
+        // Copy row when copy icon is clicked, retaining input values and select options
+        $('#bft_container').on('click', '.fa-copy', function() {
+            let newRow = $(this).closest('.bft-row').clone();
+            newRow.find('.fa-copy, .fa-trash').addClass('d-none'); // Hide copy and trash icons initially
+            newRow.find('.fa-plus').removeClass('d-none'); // Ensure plus icon is visible
+            $('.bft-col-form').append(newRow);
+        });
+    });
+</script>
+
+
+</body>
+</html>
